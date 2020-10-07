@@ -1,5 +1,5 @@
 ===================================================================================
-Audio to Text Transcrition using (AWS S3 & Transcribe) service - One job at a time.
+Audio to Text Transcription using (AWS S3 & Transcribe) service - One job at a time.
 ===================================================================================
 
 About:
