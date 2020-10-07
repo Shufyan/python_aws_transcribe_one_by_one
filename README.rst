@@ -1,9 +1,15 @@
 ===================================================================================
-Audio to Text Transcription using (AWS S3 & Transcribe) service - One job at a time.
+Audio to Text Transcription using (AWS S3 & Transcribe) service - One job at a time
 ===================================================================================
 
-About:
-------
+* `About`_
+* `Architecture Diagram`_
+* `Getting Started`_
+* `Required Libraries`_
+* `How to Use?`_
+
+About
+-----
 Shows how to use the AWS SDK for Python (Boto3) with the Amazon Transcribe API to transcribe an audio file to a text file. Also to export the transription JSON results into a meaningful Word docx file using Tscribe module.
 
 More about Tscribe can be found here: https://pypi.org/project/tscribe/
@@ -18,6 +24,9 @@ This example uses a main() function to execute all the following steps in order:
 4. All COMPLETED and FAILED jobs are separated and job results are exported into their respective csv file(s). The files  for e.g. 'job_summary_completed_xxxxxx.csv' are placed in output folder. 
 5. Finally, the resulted JSON files are converted into a more meaningful Word docx file using Tscribe module and both JSON & Docx are exported into the output folder. The successfully completed audio files & resulted JSON are archived into 'Archive' folder. Jobs are deleted as a cleanup process on completion of the whole activity.
 
+Architecture Diagram
+--------------------
+.. figure:: Architecture_Diagram.png
 
 Getting Started
 ---------------
@@ -69,8 +78,8 @@ Then, from a Python interpreter:
             print(bucket.name)
 
 
-Required Libraries:
--------------------
+Required Libraries
+------------------
 * Python 3.0+
 * boto3
 * tscribe
