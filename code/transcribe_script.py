@@ -328,24 +328,24 @@ def main():
 
         # Uploading audio files into input bucket
         ts.upload_files()
-
+        
         # Running transcription on source input files
         ts.transcribe_files()
-
+        
         # Need to instantiate the 'transcribe' client again to fetch latest job updates
-        trans_client = boto3.client('transcribe', 
-                                        aws_access_key_id = config['aws_auth_cred']['aws_access_key_id'], 
+        trans_client = boto3.client('transcribe',
+                                        aws_access_key_id = config['aws_auth_cred']['aws_access_key_id'],
                                         aws_secret_access_key = config['aws_auth_cred']['aws_secret_access_key'],
-                                        region_name = config['aws_auth_cred']['region'])        
-
+                                        region_name = config['aws_auth_cred']['region'])
+        
         # Fetching all the jobs with specified prefix in configuration
         all_processed_jobs = tb.list_jobs(config['aws_transcribe_config']['job_prefix'], trans_client)
         all_completed_jobs = []
         all_failed_jobs = []
-
+        
         # Separating the COMPLETED & FAILED jobs, generating summary reports and deleting the processed jobs
-        for each_job in all_processed_jobs:  
-            try:          
+        for each_job in all_processed_jobs:
+            try:
                 if each_job['TranscriptionJobStatus'] == 'COMPLETED':
                     all_completed_jobs.append(each_job)
                 elif each_job['TranscriptionJobStatus'] == 'FAILED':
@@ -358,21 +358,21 @@ def main():
         if len(all_completed_jobs) > 0:
             print(f'all_completed_jobs: {all_completed_jobs}')
             ts.job_summary(all_completed_jobs, 'COMPLETED')
-
+        
             for job in all_completed_jobs:
                 tb.delete_job(job['TranscriptionJobName'], trans_client)
-
+        
         # FAILED Jobs
         if len(all_failed_jobs) > 0:
             print(f'all_failed_jobs: {all_failed_jobs}')
             ts.job_summary(all_failed_jobs, 'FAILED')
-
+        
             for job in all_failed_jobs:
-                tb.delete_job(job['TranscriptionJobName'], trans_client)        
-
+                tb.delete_job(job['TranscriptionJobName'], trans_client)
+        
         # Exporing the resulted JSON file to Word docx and archiving files
         ts.export_files()
-
+        
         # Printing the end time
         t = time.localtime()
         end_time = time.strftime("%H:%M:%S", t)
